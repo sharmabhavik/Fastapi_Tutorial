@@ -24,12 +24,6 @@ Follow the steps below to run the FastAPI app locally:
    venv\Scripts\activate
    ```
 
-   On **macOS/Linux**:
-
-   ```bash
-   source venv/bin/activate
-   ```
-
 3. **Install required packages**
 
    ```bash
@@ -117,32 +111,7 @@ def sort_patients(
 
 ---
 
-## 📄 Sample Data (`patients.json`)
 
-```json
-{
-  "P001": {
-    "name": "John Doe",
-    "age": 30,
-    "height": 175,
-    "weight": 70,
-    "bmi": 22.9
-  },
-  "P002": {
-    "name": "Jane Smith",
-    "age": 25,
-    "height": 160,
-    "weight": 60,
-    "bmi": 23.4
-  },
-  "P003": {
-    "name": "Alice Johnson",
-    "age": 35,
-    "height": 170,
-    "weight": 65,
-    "bmi": 22.5
-  }
-}
 ```
 
 ---
@@ -169,9 +138,3 @@ def sort_patients(
   Returns patient list sorted by BMI in descending order.
 
 ---
-
-## 📚 Swagger UI for API Testing
-
-Test your API using the interactive Swagger UI:
-
-👉 [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
