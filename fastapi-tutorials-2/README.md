@@ -1,14 +1,23 @@
-# 🏥 FastAPI Project: Basic Patient Record API
+# 🏥 FastAPI Project: Patient Record API using HTTP Methods
 
-This project implements a simple hospital-style **Patient Management API** using FastAPI. It reads data from a local JSON file and provides basic routes to access patient information.
+This project is a beginner-friendly FastAPI application to demonstrate how to use **HTTP methods** (like `GET`) to build an API that manages hospital patient data stored in a JSON file.
+
+---
+
+## 📌 What are HTTP Methods?
+
+- `GET` → Fetch data from the server (used in this project)
+- `POST` → Send new data to the server (e.g., add a new patient)
+- `PUT` → Update existing data on the server
+- `DELETE` → Remove data from the server
+
+> 🧠 In this project, we focus on **GET** methods only — to retrieve patient information.
 
 ---
 
 ## 🚀 How to Run Locally
 
-Follow these steps to get started with the FastAPI app:
-
-### 🛠️ Environment Setup
+### 🛠️ Setup Instructions
 
 1. **Create a virtual environment**
    ```bash
@@ -38,13 +47,13 @@ Follow these steps to get started with the FastAPI app:
 
 ```
 .
-├── http_methods.py           # FastAPI app
-└── patients.json     # Sample patient data
+├── http_methods.py     # Main FastAPI app
+└── patients.json         # Patient data in JSON format
 ```
 
 ---
 
-## 📄 Code (`main.py`)
+## 📄 Code Overview (`http_methodspy.py`)
 
 ```python
 from fastapi import FastAPI
@@ -59,22 +68,32 @@ def data_load():
         data = json.load(f)
     return data
 
-# Root endpoint - returns a basic welcome message
+# Root endpoint - GET method
 @app.get("/")
 def hello():
     return {'message': 'Patient Management System'}
 
-# About endpoint - describes the purpose of the API
+# About endpoint - GET method
 @app.get('/about')
 def about():
     return {'message': 'A fully functional Project API to manage Hospital Patient Records'}
 
-# View endpoint - returns all patient records from the JSON file
+# View endpoint - GET method to fetch all patients
 @app.get('/view')
 def view():
     data = data_load()
     return data
 ```
+
+---
+
+## 📬 Available GET Endpoints
+
+| Route         | Description                                  |
+|---------------|----------------------------------------------|
+| `/`           | Returns welcome message                      |
+| `/about`      | Returns short API description                |
+| `/view`       | Returns all patient records from JSON        |
 
 ---
 
@@ -95,6 +114,18 @@ def view():
   ```
 
 - **GET /view**  
-  Returns all patient records from `patients.json` in JSON format.
+  Returns all records like:
+  ```json
+  {
+    "P001": {
+      "name": "John Doe",
+      "age": 30,
+      "height": 175,
+      "weight": 70,
+      "bmi": 22.9
+    },
+    ...
+  }
+  ```
 
 ---
