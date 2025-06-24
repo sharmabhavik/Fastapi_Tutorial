@@ -1,12 +1,14 @@
-# 🏥 FastAPI Tutorial: Patient Record Management API
+# 🏥 FastAPI Project: Basic Patient Record API
 
-## Learn to Use Path Params, Query Params, and Exception Handling in FastAPI
-
-This guide walks you through creating a simple hospital-style patient record system using FastAPI.
+This project implements a simple hospital-style **Patient Management API** using FastAPI. It reads data from a local JSON file and provides basic routes to access patient information.
 
 ---
 
-### 🛠️ Setup Instructions
+## 🚀 How to Run Locally
+
+Follow these steps to get started with the FastAPI app:
+
+### 🛠️ Environment Setup
 
 1. **Create a virtual environment**
    ```bash
@@ -14,108 +16,85 @@ This guide walks you through creating a simple hospital-style patient record sys
    ```
 
 2. **Activate the virtual environment**
+
+   On **Windows**:
    ```bash
    venv\Scripts\activate
    ```
 
-3. **Install required packages**
+3. **Install FastAPI and Uvicorn**
    ```bash
    pip install fastapi uvicorn
    ```
 
-4. **Run your FastAPI app**
+4. **Run the application**
    ```bash
    uvicorn main:app --reload
    ```
 
 ---
 
-### 📂 Project Structure
+## 📂 Project Structure
 
 ```
 .
-├── main.py
-└── patients.json
+├── http_methods.py           # FastAPI app
+└── patients.json     # Sample patient data
 ```
 
 ---
 
-### 📄 Code Explanation (`main.py`)
+## 📄 Code (`main.py`)
 
 ```python
-from fastapi import FastAPI, HTTPException, Path, Query
+from fastapi import FastAPI
 import json
 
+# Initialize FastAPI app
 app = FastAPI()
 
-# Load patient data from a JSON file
-def load_data():
-    with open("patients.json", "r") as f:
+# Function to load patient data from a JSON file
+def data_load():
+    with open('patients.json', 'r') as f:
         data = json.load(f)
     return data
 
+# Root endpoint - returns a basic welcome message
 @app.get("/")
 def hello():
-    return {"message": "This is Patient Record Management API"}
+    return {'message': 'Patient Management System'}
 
-@app.get("/view")
+# About endpoint - describes the purpose of the API
+@app.get('/about')
+def about():
+    return {'message': 'A fully functional Project API to manage Hospital Patient Records'}
+
+# View endpoint - returns all patient records from the JSON file
+@app.get('/view')
 def view():
-    data = load_data()
+    data = data_load()
     return data
-
-@app.get("/patient/{patient_id}")
-def view_patient(patient_id: str):
-    data = load_data()
-    if patient_id in data:
-        return data[patient_id]
-    return {"error": "Patient Not Found"}
-
-@app.get("/patients/{patient_id}")
-def view_patients(patient_id: str = Path(..., description="ID of the patients in DB", example="P001")):
-    data = load_data()
-    if patient_id in data:
-        return data[patient_id]
-    raise HTTPException(status_code=404, detail="Patient Not Found")
-
-@app.get("/sort")
-def sort_patients(
-    sort_by: str = Query(..., description="Sort on the basis of the Height, Weight, BMI"),
-    order: str = Query("asc", description="Sort in ascending order or descending order")
-):
-    valid_fields = ["height", "weight", "bmi"]
-
-    if sort_by not in valid_fields:
-        raise HTTPException(status_code=404, detail=f"Invalid fields selected from {valid_fields}")
-    if order not in ["asc", "desc"]:
-        raise HTTPException(status_code=400, detail="Invalid order selected between asc and desc")
-
-    data = load_data()
-    sort_order = True if order == "desc" else False
-    sorted_data = sorted(data.values(), key=lambda x: x.get(sort_by, 0), reverse=sort_order)
-    return sorted_data
 ```
 
 ---
 
-### 🔍 Output Samples
+## 🔍 Output Examples
 
-- At `GET /`
-  ```json
-  { "message": "This is Patient Record Management API" }
-  ```
-
-- At `GET /patient/P001`
+- **GET /**  
   ```json
   {
-    "name": "John Doe",
-    "age": 30,
-    "height": 175,
-    "weight": 70,
-    "bmi": 22.9
+    "message": "Patient Management System"
   }
   ```
 
-- At `GET /sort?sort_by=bmi&order=desc`
-  Returns patients sorted by BMI in descending order.
+- **GET /about**  
+  ```json
+  {
+    "message": "A fully functional Project API to manage Hospital Patient Records"
+  }
+  ```
+
+- **GET /view**  
+  Returns all patient records from `patients.json` in JSON format.
 
 ---
